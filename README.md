@@ -29,7 +29,7 @@ The Smart Plant Care system operates through a network of interconnected compone
 - **Switch**: Manages the on/off states of the water pump.
 
 ## Circuit Connection Diagram
-!([Circuit_Diagram.png](https://github.com/1kushagra2/Smart-Plant-Care/blob/main/Smart%20Plant%20Care/Circuit_Diagram.jpg))
+![Circuit_Diagram.png](https://github.com/1kushagra2/Smart-Plant-Care/blob/main/Smart%20Plant%20Care/Circuit_Diagram.jpg)
 
 ### Table For Pin Configuration
 
