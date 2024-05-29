@@ -1,4 +1,4 @@
-# Smart Plant Care using the VSD_Squadron-MINI-BOARD
+![image](https://github.com/1kushagra2/Smart-Plant-Care/assets/141447943/201ab001-144e-4c81-9acc-b20a75f805d2)# Smart Plant Care using the VSD_Squadron-MINI-BOARD
 
 ## Introduction
 The "Smart Plant Care" project is an innovative IoT solution aimed at optimizing plant growth by monitoring essential environmental parameters. By leveraging advanced sensors and microcontrollers, our system measures the humidity and temperature of the atmosphere, as well as the moisture content of the soil. This information is crucial for maintaining optimal plant health and growth. The project addresses the increasing need for efficient plant care in both residential and agricultural settings, ensuring that plants receive the right amount of water at the right time.
@@ -33,6 +33,40 @@ The Smart Plant Care system operates through a network of interconnected compone
 ![Circuit_Diagram.png](https://github.com/1kushagra2/Smart-Plant-Care/blob/main/Smart%20Plant%20Care/Circuit_Diagram.png)
 
 ### Table For Pin Configuration
+For Soil Moisture senosor
+| Soil Moisture sensor    | VSDsquadron |
+|---------|-----|
+| VCC   | 3.3V  |
+| GND     | GND  |
+| SIG | PA2  |
+
+For Temperature and Humidity senosor
+| DH11    | VSDsquadron |
+|---------|-----|
+| VCC   | 3.3V  |
+| GND     | GND  |
+| DOUT | PA1  |
+
+For Relay module 
+| Relay    | VSDsquadron | external battery | Motor |
+|---------|----- | ----- | -----|
+| VCC   | 3.3V  |  -  |  -  | 
+| GND     | GND  |-|-|
+| IN | PC0  |-|-|
+| common contact | -  | 9V |-|
+| Normally Closed | -  | - |-|
+| Normally Open | -  | - | VCC |
+
+For ESP 01S 8266 wifi module
+| ESP 8266 | VSDsquadron |
+|---------|-----|
+| VCC   | 3.3V  |
+| CH_EN     | 3.3V  |
+| GND | GND  |
+| U0RXD   | TX  |
+| U0TXD     | RX  |
+
+
 
 ## Conclusion
 The Smart Plant Care project integrates advanced IoT technology to provide an efficient and automated plant care system. By ensuring that plants receive the optimal amount of water based on real-time environmental data, this system enhances plant health and growth while conserving resources. With remote monitoring and control capabilities, users can manage their plants effortlessly, making Smart Plant Care a valuable tool for both hobbyists and professional growers.
