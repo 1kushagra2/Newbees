@@ -1,4 +1,4 @@
-![image](https://github.com/1kushagra2/Smart-Plant-Care/assets/141447943/201ab001-144e-4c81-9acc-b20a75f805d2)# Smart Plant Care using the VSD_Squadron-MINI-BOARD
+# Smart Plant Care using the VSD_Squadron-MINI-BOARD
 
 ## Introduction
 The "Smart Plant Care" project is an innovative IoT solution aimed at optimizing plant growth by monitoring essential environmental parameters. By leveraging advanced sensors and microcontrollers, our system measures the humidity and temperature of the atmosphere, as well as the moisture content of the soil. This information is crucial for maintaining optimal plant health and growth. The project addresses the increasing need for efficient plant care in both residential and agricultural settings, ensuring that plants receive the right amount of water at the right time.
