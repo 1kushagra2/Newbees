@@ -26,6 +26,7 @@ The Smart Plant Care system operates through a network of interconnected compone
 - **DHT11 Temperature and Humidity Sensor**: Measures atmospheric temperature and humidity.
 - **Soil Moisture Sensor Module**: Detects the moisture content in the soil.
 - **Water Pump**: Provides irrigation to the plant when needed.
+- **Relay Module**: Helps to control high-power pump with low-power signals.
 - **Switch**: Manages the on/off states of the water pump.
 
 ## Circuit Connection Diagram
