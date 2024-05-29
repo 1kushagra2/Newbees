@@ -33,6 +33,38 @@ The Smart Plant Care system operates through a network of interconnected compone
 ![Circuit Diagram](https://github.com/1kushagra2/Smart-Plant-Care/blob/main/Smart%20Plant%20Care/Circuit_Diagram.png)
 
 ### Table For Pin Configuration
+For Soil Moisture senosor
+| Soil Moisture sensor    | VSDsquadron |
+|---------|-----|
+| VCC   | 3.3V  |
+| GND     | GND  |
+| SIG | PA2  |
+
+For Temperature and Humidity senosor
+| DH11    | VSDsquadron |
+|---------|-----|
+| VCC   | 3.3V  |
+| GND     | GND  |
+| DOUT | PA1  |
+
+For Relay module 
+| Relay    | VSDsquadron | external battery | Motor |
+|---------|----- | ----- | -----|
+| VCC   | 3.3V  |  -  |  -  | 
+| GND     | GND  |-|-|
+| IN | PC0  |-|-|
+| common contact | -  | 9V |-|
+| Normally Closed | -  | - |-|
+| Normally Open | -  | - | VCC |
+
+For ESP 01S 8266 wifi module
+| ESP 8266 | VSDsquadron |
+|---------|-----|
+| VCC   | 3.3V  |
+| CH_EN     | 3.3V  |
+| GND | GND  |
+| U0RXD   | TX  |
+| U0TXD     | RX  |
 
 ## Conclusion
 The Smart Plant Care project integrates advanced IoT technology to provide an efficient and automated plant care system. By ensuring that plants receive the optimal amount of water based on real-time environmental data, this system enhances plant health and growth while conserving resources. With remote monitoring and control capabilities, users can manage their plants effortlessly, making Smart Plant Care a valuable tool for both hobbyists and professional growers.
