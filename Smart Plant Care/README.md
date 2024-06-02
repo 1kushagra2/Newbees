@@ -58,6 +58,216 @@ For ESP 01S 8266 wifi module
 | U0RXD   | TX  |
 | U0TXD     | RX  |
 
+## Working Code
+
+### Code for VSD squadron mini
+#include <ch32v00x.h>
+#include <debug.h>
+
+/* Macros for ADC Pin and Port */
+#define ANALOG1_PIN     GPIO_Pin_4
+#define ANALOG1_PORT    GPIOD
+
+#define MOTOR_PIN     GPIO_Pin_2
+//#define MOTOR_PORT   GPIOD
+
+/* Global Variables */
+volatile uint8_t adcFlag = 0;
+#define LED_PIN GPIO_Pin_3 // Assuming the LED is connected to GPIO pin 3 (D3 on port D)
+
+/* Function Prototypes */
+void NMI_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
+void HardFault_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
+void ADC1_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
+void Delay_Init(void);
+void Delay_Ms(uint32_t n);
+void ADCConfig(void);
+void USARTx_CFG(void);
+void USART_SendString(char* str);
+
+void ADCConfig(void) {
+    ADC_InitTypeDef ADC_InitStructure = {0};
+    GPIO_InitTypeDef GPIO_InitStructure = {0};
+    NVIC_InitTypeDef NVIC_InitStructure = {0};
+
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
+    RCC_ADCCLKConfig(RCC_PCLK2_Div8);
+
+    GPIO_InitStructure.GPIO_Pin = ANALOG1_PIN;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
+    GPIO_Init(ANALOG1_PORT, &GPIO_InitStructure);
+
+    ADC_DeInit(ADC1);
+    ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
+    ADC_InitStructure.ADC_ScanConvMode = DISABLE;
+    ADC_InitStructure.ADC_ContinuousConvMode = DISABLE;
+    ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigInjecConv_None;
+    ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
+    ADC_InitStructure.ADC_NbrOfChannel = 1;
+    ADC_Init(ADC1, &ADC_InitStructure);
+
+    ADC_InjectedSequencerLengthConfig(ADC1, 1);
+    ADC_InjectedChannelConfig(ADC1, ADC_Channel_7, 1, ADC_SampleTime_241Cycles);  // Increased sample time for stability
+    ADC_ExternalTrigInjectedConvCmd(ADC1, DISABLE);
+
+    NVIC_InitStructure.NVIC_IRQChannel = ADC_IRQn;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_Init(&NVIC_InitStructure);
+
+    ADC_Calibration_Vol(ADC1, ADC_CALVOL_50PERCENT);
+    ADC_ITConfig(ADC1, ADC_IT_JEOC, ENABLE);
+    ADC_Cmd(ADC1, ENABLE);
+
+    ADC_ResetCalibration(ADC1);
+    while (ADC_GetResetCalibrationStatus(ADC1));
+
+    ADC_StartCalibration(ADC1);
+    while (ADC_GetCalibrationStatus(ADC1));
+}
+
+void USARTx_CFG(void) {
+    GPIO_InitTypeDef GPIO_InitStructure = {0};
+    USART_InitTypeDef USART_InitStructure = {0};
+
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD | RCC_APB2Periph_USART1, ENABLE);
+
+    /* USART1 TX-->D.5   RX-->D.6 */
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+    GPIO_Init(GPIOD, &GPIO_InitStructure);
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+    GPIO_Init(GPIOD, &GPIO_InitStructure);
+
+    USART_InitStructure.USART_BaudRate = 115200;
+    USART_InitStructure.USART_WordLength = USART_WordLength_8b;
+    USART_InitStructure.USART_StopBits = USART_StopBits_1;
+    USART_InitStructure.USART_Parity = USART_Parity_No;
+    USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
+    USART_InitStructure.USART_Mode = USART_Mode_Tx | USART_Mode_Rx;
+
+    USART_Init(USART1, &USART_InitStructure);
+    USART_Cmd(USART1, ENABLE);
+}
+
+void USART_SendString(char* str) {
+    while (*str) {
+        USART_SendData(USART1, *str++);
+        while (USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET) {
+            /* waiting for sending finish */
+        }
+    }
+}
+
+void ADC1_IRQHandler() {
+    if (ADC_GetITStatus(ADC1, ADC_IT_JEOC) == SET) {
+        adcFlag = 1;
+        ADC_ClearITPendingBit(ADC1, ADC_IT_JEOC);
+    }
+}
+
+void LED_Config(void) {
+    GPIO_InitTypeDef GPIO_InitStructure;
+
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
+
+    GPIO_InitStructure.GPIO_Pin = LED_PIN;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; // Output push-pull
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOD, &GPIO_InitStructure);
+
+    GPIO_InitStructure.GPIO_Pin = MOTOR_PIN;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; // Output push-pull
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOD, &GPIO_InitStructure);
+
+}
+
+
+
+int main(void) {
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    SystemCoreClockUpdate();
+    Delay_Init();
+    USART_Printf_Init(115200);
+    Delay_Ms(100); // give serial monitor time to open
+
+    USARTx_CFG();
+    ADCConfig();
+    LED_Config();
+    int accumulatedValue   = 0;
+
+    while (1) {
+        ADC_SoftwareStartInjectedConvCmd(ADC1, ENABLE);
+        uint16_t adcAverage = 0;
+        if (adcFlag == 1) {
+            static uint32_t adcAccumulated = 0;
+            static uint8_t sampleCount = 0;
+            const uint8_t maxSamples = 100;
+            while(sampleCount <= maxSamples)
+            {
+                uint16_t adcReading = ADC_GetInjectedConversionValue(ADC1, ADC_InjectedChannel_1);
+
+                // Optional: Apply averaging filter to stabilize the readings
+                // Adjust number of samples for averaging
+                adcAccumulated += adcReading;
+                sampleCount++;
+            }
+            
+
+            if (sampleCount >= maxSamples) {
+                adcAverage = adcAccumulated / maxSamples;
+                adcAccumulated = 0;
+                sampleCount = 0;
+
+                printf("%d\n", adcAverage);
+            }
+
+            adcFlag = 0;
+
+            accumulatedValue   = 0;
+            int i = 0;
+            while(1)
+            {
+                while (USART_GetFlagStatus(USART1, USART_FLAG_RXNE) == RESET) {
+               
+                }
+                
+                char receivedChar = USART_ReceiveData(USART1);
+                
+                if (receivedChar !='a' ) {
+                    
+                    accumulatedValue = accumulatedValue * 10 + (receivedChar - '0');
+                } else {
+                    
+                    break;
+                }
+                i++;
+            }
+           
+            if (accumulatedValue > adcAverage) {   // less water 
+                GPIO_SetBits(GPIOD, LED_PIN); // Turn on LED
+                GPIO_SetBits(GPIOD, MOTOR_PIN);
+            } else {
+                GPIO_ResetBits(GPIOD, LED_PIN); // Turn off LED  // water ok 
+                GPIO_ResetBits(GPIOD, MOTOR_PIN);
+            }
+            Delay_Ms(10);
+        }
+        
+        
+    }
+}
+
+void NMI_Handler(void) {}
+void HardFault_Handler(void) {
+    while (1) {
+    }
+}
 
 
 ## Conclusion
