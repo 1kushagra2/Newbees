@@ -369,7 +369,7 @@ For ESP 01S 8266 wifi module
 
 ## Demo Video
 
-[![Watch the video](https://youtu.be/Qv8wgj3b9co)
+[Smart Plant Care](https://www.youtube.com/watch?v=Qv8wgj3b9co)
 
 ## Conclusion
 The Smart Plant Care project integrates advanced IoT technology to provide an efficient and automated plant care system. By ensuring that plants receive the optimal amount of water based on real-time environmental data, this system enhances plant health and growth while conserving resources. With remote monitoring and control capabilities, users can manage their plants effortlessly, making Smart Plant Care a valuable tool for both hobbyists and professional growers.
