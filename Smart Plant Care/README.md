@@ -55,8 +55,8 @@ For ESP 01S 8266 wifi module
 | VCC   | 3.3V  |
 | CH_EN     | 3.3V  |
 | GND | GND  |
-| U0RXD   | TX  |
-| U0TXD     | RX  |
+| U0RXD   | TX(PD5)  |
+| U0TXD     | RX(PD6)  |
 
 ## Working Code
 
