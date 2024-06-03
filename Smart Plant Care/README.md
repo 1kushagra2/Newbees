@@ -27,7 +27,7 @@ The Smart Plant Care system operates through a network of interconnected compone
 - **Water Pump**: Provides irrigation to the plant when needed.
 - **Relay Module**: Helps to control high-power pump with low-power signals.
 - **Switch**: Manages the on/off states of the water pump.
-
+- **Arduino**: For demonstrating the serial monitor of VSDsquadon mini.
 ## Circuit Connection Diagram
 ![Circuit_Diagram.png](https://github.com/1kushagra2/Smart-Plant-Care/blob/main/Smart%20Plant%20Care/Circuit_Diagram.png)
 
@@ -57,6 +57,15 @@ For ESP 01S 8266 wifi module
 | GND | GND  |
 | U0RXD   | TX(PD5)  |
 | U0TXD     | RX(PD6)  |
+
+For Arduino
+| Arduino | VSDsquadron |
+|---------|-----|
+| RX   | PD6  |
+| TX     | PD5  |
+| GND | GND  |
+
+
 
 ## Working Code
 
