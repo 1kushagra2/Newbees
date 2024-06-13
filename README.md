@@ -13,7 +13,7 @@ The Smart Plant Care system operates through a network of interconnected compone
 4. **Threshold Setting**: Users can set and adjust the soil moisture threshold via the web interface.
 5. **Automated Watering**: When soil moisture falls below the threshold, the system activates the water pump to irrigate the plant.
 
-## # How It Works
+### How It Works
 1. **Sensor Data Acquisition**: 
    - The soil moisture sensor checks the soil's moisture level.
    - The DHT11 sensor measures ambient temperature and humidity.
