@@ -1,32 +1,44 @@
 # Smart Plant Care using the VSD_Squadron-MINI-BOARD
 
 ## Introduction
-The "Smart Plant Care" project is an innovative IoT solution aimed at optimizing plant growth by monitoring essential environmental parameters. By leveraging advanced sensors and microcontrollers, our system measures the moisture content of the soil. This information is crucial for maintaining optimal plant health and growth. The project addresses the increasing need for efficient plant care in both residential and agricultural settings, ensuring that plants receive the right amount of water at the right time.
+The "Smart Plant Care" project is an innovative IoT solution aimed at optimizing plant growth by monitoring essential environmental parameters. By leveraging advanced sensors and microcontrollers, our system measures the moisture content of the soil, temperature, and humidity. This information is crucial for maintaining optimal plant health and growth. The project addresses the increasing need for efficient plant care in both residential and agricultural settings, ensuring that plants receive the right amount of water at the right time.
 
 ## Overview
 The Smart Plant Care system operates through a network of interconnected components that work together to provide real-time monitoring and automated watering solutions. The user can remotely monitor the plant’s environment and adjust the soil moisture threshold via a WiFi-connected interface. When the soil moisture level falls below the set threshold, the system automatically activates a water pump to deliver the necessary amount of water to the plant. This process helps in conserving water and ensuring that the plant remains healthy.
 
 ### User Flow
-1. **Data Collection**: Sensors measure soil moisture levels.
+1. **Data Collection**: Sensors measure soil moisture levels, temperature, and humidity.
 2. **Data Transmission**: The CH32V003F4U6 microcontroller collects data from the sensors and sends it to the ESP-01S ESP8266 WiFi Module.
 3. **Remote Monitoring**: The ESP8266 transmits the data over WiFi, allowing the user to monitor real-time conditions through a web interface.
 4. **Threshold Setting**: Users can set and adjust the soil moisture threshold via the web interface.
 5. **Automated Watering**: When soil moisture falls below the threshold, the system activates the water pump to irrigate the plant.
 
-### How It Works
-1. **Sensor Data Acquisition**: The soil moisture sensor checks the soil's moisture level.
-2. **Data Processing**: The CH32V003F4U6 microcontroller processes the sensor data and determines if the soil moisture is below the user-defined threshold.
-3. **Data Transmission**: Processed data is sent to the ESP-01S ESP8266 WiFi module, which transmits it to the user's web interface for real-time monitoring.
-4. **Automated Response**: If the soil moisture is below the threshold, the microcontroller activates the water pump through a switch to irrigate the plant.
-5. **User Interaction**: The user can monitor real-time data, set moisture thresholds, and control the watering system remotely via the web interface.
+## # How It Works
+1. **Sensor Data Acquisition**: 
+   - The soil moisture sensor checks the soil's moisture level.
+   - The DHT11 sensor measures ambient temperature and humidity.
+2. **Data Processing**: 
+   - The CH32V003F4U6 microcontroller processes the sensor data and determines if the soil moisture is below the user-defined threshold.
+   - It also monitors temperature and humidity data.
+3. **Data Transmission**: 
+   - Processed data is sent to the ESP-01S ESP8266 WiFi module, which transmits it to the user's web interface for real-time monitoring.
+4. **Automated Response**: 
+   - If the soil moisture is below the threshold, the microcontroller activates the water pump through a switch to irrigate the plant.
+5. **User Interaction**: 
+   - The user can monitor real-time data, set moisture thresholds, and control the watering system remotely via the web interface.
 
 ## Components Required
 - **CH32V003F4U6 Microcontroller**: Acts as the central processing unit, managing sensor data and system operations.
 - **ESP-01S ESP8266 WiFi Module**: Facilitates wireless communication, allowing remote data monitoring and control.
 - **Soil Moisture Sensor Module**: Detects the moisture content in the soil.
+- **DHT11 Humidity and Temperature Sensor**: Measures ambient temperature and humidity.
 - **Water Pump**: Provides irrigation to the plant when needed.
 - **Relay Module**: Helps to control high-power pump with low-power signals.
 - **Switch**: Manages the on/off states of the water pump.
+
+---
+
+This project aims to create a reliable and efficient system for plant care, suitable for both residential and agricultural use. By leveraging IoT technology, Smart Plant Care ensures plants receive the optimal amount of water and thrive in their environment.
 
 ## Circuit Connection Diagram
 ![Circuit_Diagram.png](https://github.com/1kushagra2/Smart-Plant-Care/blob/main/Smart%20Plant%20Care/Circuit_Diagram.png)
