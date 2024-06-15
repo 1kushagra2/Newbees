@@ -41,7 +41,7 @@ The Smart Plant Care system operates through a network of interconnected compone
 This project aims to create a reliable and efficient system for plant care, suitable for both residential and agricultural use. By leveraging IoT technology, Smart Plant Care ensures plants receive the optimal amount of water and thrive in their environment.
 
 ## Circuit Connection Diagram
-![Circuit_Diagram.png]("https://github.com/1kushagra2/Newbees/blob/main/Smart%20Plant%20Care/WhatsApp%20Image%202024-06-15%20at%2006.21.18_f56685da.jpg")
+![Circuit_Diagram.png]("https://github.com/1kushagra2/Newbees/blob/main/Smart%20Plant%20Care/Circuit_Diagram")
 
 ### Table For Pin Configuration
 For Soil Moisture senosor
